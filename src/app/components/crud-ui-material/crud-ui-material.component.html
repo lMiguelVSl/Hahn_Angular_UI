@@ -1,34 +1,32 @@
-<div class="container">
-    <mat-card>
-        <mat-card-title>Users</mat-card-title>
-        <mat-card-content>
+<mat-card class="container">
+    <mat-card-title>Users</mat-card-title>
+    <mat-card-content>
 
-            <mat-form-field>
-                <mat-label>Name</mat-label>
-                <input matInput [(ngModel)]="User.name" type="text" required>
-                <mat-error *ngIf="UserForm.controls['name'].status === 'INVALID'">
-                    The name is required
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="User.name" type="text" required>
+            <mat-error *ngIf="UserForm.controls['name'].status === 'INVALID'">
+                The name is required
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Position</mat-label>
-                <input matInput [(ngModel)]="User.position" type="text">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Position</mat-label>
+            <input matInput [(ngModel)]="User.position" type="text">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Department</mat-label>
-                <input matInput [(ngModel)]="User.department" type="text" required>
-                <mat-error *ngIf="UserForm.controls['department'].status === 'INVALID'">
-                    The department is required
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Department</mat-label>
+            <input matInput [(ngModel)]="User.department" type="text" required>
+            <mat-error *ngIf="UserForm.controls['department'].status === 'INVALID'">
+                The department is required
+            </mat-error>
+        </mat-form-field>
 
-            <br>
-            <button mat-raised-button type="submit" color="primary" (click)="isEditMode ? updateUser() : addUser()">
-                {{isEditMode ? 'Update' : 'Add'}}
-            </button>
+        <br>
+        <button mat-raised-button (click)="isEditMode ? updateUser() : addUser()">
+            {{isEditMode ? 'Update' : 'Add'}}
+        </button>
 
-        </mat-card-content>
-    </mat-card>
-</div>
+    </mat-card-content>
+</mat-card>
