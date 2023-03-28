@@ -1,1 +1,8 @@
-<p>header works!</p>
+<button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>expand_more</mat-icon>
+    Menu
+</button>
+<mat-menu #menu="matMenu">
+    <a href="#" mat-menu-item>CRUD Actions</a>
+    <a href="#" mat-menu-item>Item List</a>
+</mat-menu>
