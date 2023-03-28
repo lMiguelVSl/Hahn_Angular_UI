@@ -1,36 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../models/User-model';
 
-class Employee {
-  constructor(public id: number, public name: string, public position: string, public department: string) { }
-}
+
 
 @Component({
   selector: 'app-crud-ui-material',
   templateUrl: './crud-ui-material.component.html',
   styleUrls: ['./crud-ui-material.component.css']
 })
-export class CrudUiMaterialComponent {
+export class CrudUiMaterialComponent implements OnInit {
 
-  dataSource: Employee[] = [
-    new Employee(1, 'Miguel', 'Full Stack Developer', 'Engineering')
-  ];
   selectedItem: any;
-  displayedColumns: any[] = ['id', 'name', 'position', 'department', 'actions'];
   isEditMode: boolean = false;
+  User: User = new User('', '', '');
+  UserForm: FormGroup;
 
-  addEmployee() {
+  constructor() {
+    this.UserForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      position: new FormControl('', Validators.required),
+      department: new FormControl('', Validators.required)
+    });
 
   }
 
-  editEmployee(item: any) {
-
+  ngOnInit(): void {
+    this.loadData();
   }
 
-  deleteEmployee(item: any) {
-
+  loadData() {
+    //TODO GET API WITH .NET
   }
 
-  updateEmployee() {
+  addUser() {
+    if (this.UserForm.status === 'VALID') {
+      //TODO CREATE API WITH .NET
+    }
+    console.log('add User:', this.UserForm);
+  }
 
+  editUser(item: any) {
+    console.log('element edit:', item);
+    //TODO UPDATE/PATCH API .NET
+  }
+
+  deleteUser(item: any) {
+    console.log('element delete:', item);
+    //TODO DELETE API .NET
+  }
+
+  updateUser() {
+    //TODO UPDATE API .NET
   }
 }
