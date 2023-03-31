@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user-services';
 import { User } from '../models/User-model';
 
 
@@ -9,33 +11,27 @@ import { User } from '../models/User-model';
   templateUrl: './crud-ui-material.component.html',
   styleUrls: ['./crud-ui-material.component.css']
 })
-export class CrudUiMaterialComponent implements OnInit {
+export class CrudUiMaterialComponent {
 
   selectedItem: any;
   isEditMode: boolean = false;
   User: User = new User('', '', '');
   UserForm: FormGroup;
 
-  constructor() {
-    this.UserForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      position: new FormControl('', Validators.required),
-      department: new FormControl('', Validators.required)
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+    this.UserForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      position: [''],
+      company: ['', Validators.required]
     });
 
   }
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
-  loadData() {
-    //TODO GET API WITH .NET
-  }
-
   addUser() {
     if (this.UserForm.status === 'VALID') {
-      //TODO CREATE API WITH .NET
+      let id = 0;
+      this.userService.createUser(this.User).pipe().subscribe(_id => _id = id);
+      if (id != 0) this.nagivate('grid');
     }
     console.log('add User:', this.UserForm);
   }
@@ -52,5 +48,13 @@ export class CrudUiMaterialComponent implements OnInit {
 
   updateUser() {
     //TODO UPDATE API .NET
+  }
+
+  nagivate(page: string) {
+    switch (page) {
+      case 'grid':
+        this.router.navigate(['/item-list']);
+        break;
+    }
   }
 }
