@@ -30,10 +30,14 @@ export class CrudUiMaterialComponent {
   addUser() {
     if (this.UserForm.status === 'VALID') {
       let id = 0;
-      this.userService.createUser(this.User).pipe().subscribe(_id => _id = id);
-      if (id != 0) this.nagivate('grid');
+      this.User.Name = this.UserForm.value.name;
+      this.User.Position = this.UserForm.value.position;
+      this.User.Company = this.UserForm.value.company;
+      this.userService.createUser(this.User).pipe().subscribe(_id => {
+        id = _id
+        if (id != 0) this.nagivate('grid');
+      });
     }
-    console.log('add User:', this.UserForm);
   }
 
   editUser(item: any) {
