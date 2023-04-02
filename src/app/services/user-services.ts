@@ -20,4 +20,12 @@ export class UserService {
         return this.http.post<number>(`${environment.baseUrl}${Endpoints.user.createUser.path()}`, user);
     }
 
+    updateUser(user: User) {
+        return this.http.put(`${environment.baseUrl}${Endpoints.user.updateUser.path()}`, user);
+    }
+
+    deleteUser(userId: any) {
+        return this.http.delete(`${environment.baseUrl}${Endpoints.user.updateUser.path()}?Id=${userId}`);
+    }
+
 }

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user-services';
 import { User } from '../models/User-model';
 
@@ -11,47 +11,77 @@ import { User } from '../models/User-model';
   templateUrl: './crud-ui-material.component.html',
   styleUrls: ['./crud-ui-material.component.css']
 })
-export class CrudUiMaterialComponent {
+export class CrudUiMaterialComponent implements OnInit {
 
   selectedItem: any;
   isEditMode: boolean = false;
-  User: User = new User('', '', '');
+  User: User = { Id: 0, Name: '', Position: '', Company: '' };
   UserForm: FormGroup;
+  userId: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.UserForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      firstName: ['', Validators.required],
       position: [''],
       company: ['', Validators.required]
     });
 
   }
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['name']) {
+        this.isEditMode = true;
+        this.userId = params['id'];
+        this.UserForm.patchValue({
+          firstName: params['name'],
+          position: params['position'],
+          company: params['company']
+        });
+      }
+    });
+  }
 
   addUser() {
     if (this.UserForm.status === 'VALID') {
-      let id = 0;
-      this.User.Name = this.UserForm.value.name;
+      this.User.Name = this.UserForm.value.firstName;
       this.User.Position = this.UserForm.value.position;
       this.User.Company = this.UserForm.value.company;
-      this.userService.createUser(this.User).pipe().subscribe(_id => {
-        id = _id
-        if (id != 0) this.nagivate('grid');
-      });
+      // this.userService.createUser(this.User).pipe().subscribe(_id => {
+      //   id = _id
+      //   if (id != 0) this.nagivate('grid');
+      // }, (err) => {
+      //   console.group('Error Adding user:', err);
+      // }).unsubscribe();
+      this.userService.createUser(this.User).pipe().subscribe(
+        {
+          next: (id) => {
+            if (id != 0) this.nagivate('grid');
+          },
+          error: (err) => {
+            console.group('Error Adding user:', err);
+          }
+        }
+      );
     }
   }
 
-  editUser(item: any) {
-    console.log('element edit:', item);
-    //TODO UPDATE/PATCH API .NET
-  }
-
-  deleteUser(item: any) {
-    console.log('element delete:', item);
-    //TODO DELETE API .NET
-  }
-
   updateUser() {
-    //TODO UPDATE API .NET
+    if (this.UserForm.status === 'VALID') {
+      this.User.Id = this.userId;
+      this.User.Name = this.UserForm.value.firstName;
+      this.User.Position = this.UserForm.value.position;
+      this.User.Company = this.UserForm.value.company;
+      this.userService.updateUser(this.User).subscribe({
+        next: (res) => {
+          console.log('update response', res)
+        },
+        error: (err) => {
+          console.log('error updating user:', err);
+        }
+      });
+    }
+    this.isEditMode = false;
+    this.router.navigate(['/item-list']);
   }
 
   nagivate(page: string) {

@@ -5,8 +5,8 @@
         <div [formGroup]="UserForm">
             <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput formControlName="name" type="text" required>
-                <mat-error *ngIf="UserForm.controls['name'].status === 'INVALID'">
+                <input matInput formControlName="firstName" type="text" required>
+                <mat-error *ngIf="UserForm.controls['firstName'].status === 'INVALID'">
                     The name is required
                 </mat-error>
             </mat-form-field>
@@ -20,7 +20,7 @@
                 <mat-label>Company</mat-label>
                 <input matInput formControlName="company" type="text" required>
                 <mat-error *ngIf="UserForm.controls['company'].status === 'INVALID'">
-                    The department is required
+                    The company is required
                 </mat-error>
             </mat-form-field>
 
