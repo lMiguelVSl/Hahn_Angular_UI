@@ -27,6 +27,7 @@ export class GridUiMaterialComponent {
 
   editUser(element: User) {
     this.router.navigate([`/actions`], { queryParams: element });
+    this.dataSource = [];
   }
 
   deleteUser(element: any) {

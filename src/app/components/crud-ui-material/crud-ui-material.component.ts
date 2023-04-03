@@ -73,7 +73,8 @@ export class CrudUiMaterialComponent implements OnInit {
       this.User.Company = this.UserForm.value.company;
       this.userService.updateUser(this.User).subscribe({
         next: (res) => {
-          console.log('update response', res)
+          console.log('update response', res);
+          this.router.navigate(['/item-list']);
         },
         error: (err) => {
           console.log('error updating user:', err);
@@ -81,7 +82,6 @@ export class CrudUiMaterialComponent implements OnInit {
       });
     }
     this.isEditMode = false;
-    this.router.navigate(['/item-list']);
   }
 
   nagivate(page: string) {
